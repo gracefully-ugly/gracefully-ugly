@@ -5,6 +5,9 @@ spring:
     active: dev
     include:
       - aws
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
 
   jpa:
     open-in-view: true
