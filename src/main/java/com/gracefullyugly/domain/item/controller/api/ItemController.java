@@ -117,8 +117,8 @@ public class ItemController {
 
     // 상품명으로 검색
     @Operation(summary = "상품 검색", description = "상품명으로 검색하기")
-    @GetMapping("/all/items/search")
-    public ResponseEntity<List<ItemWithImageUrlResponse>> searchItems(@RequestParam String keyword) {
+    @PostMapping("/all/items/search")
+    public ResponseEntity<List<ItemWithImageUrlResponse>> searchItems(@RequestBody String keyword) {
         return ResponseEntity
                 .ok(itemSearchService.searchItemsByItemName(keyword));
     }
