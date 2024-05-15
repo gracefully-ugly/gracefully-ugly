@@ -42,7 +42,65 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+//-------------------------------검색 상품 조회-------------------------------------------------------
+document.addEventListener('DOMContentLoaded', function () {
 
+    const search_btn = document.getElementById("searchButton")
+    if (search_btn) {
+        search_btn.addEventListener("click", function () {
+            console.log('Search button clicked');
+
+            const keyword = document.getElementById('searchInput').value;
+            const apiUrl = '/api/all/items/search';
+            const searchItemsContainer = document.querySelector('.search_container');
+            const searchItems = document.querySelector('.search-items');
+            searchItemsContainer.style.display = 'block';
+
+            console.log('Keyword:', keyword);
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    keyword: keyword
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    console.log(response.json());
+                    return response.json(); // JSON 형태로 응답 데이터 파싱
+                })
+                .then(data => {
+                    console.log(data);
+                    // 받은 데이터를 반복하여 각 상품을 HTML에 추가
+                    data.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('item');
+                        itemElement.dataset.itemId = item.id;
+
+                        // 각 상품 정보를 표시할 방법에 따라 구성
+                        itemElement.innerHTML = `
+                    <img src="${item.imageUrl ? item.imageUrl : '/image/item.png'}" alt="제품 사진" width="240" height="240">
+                    <div>
+                        <div>전체물량 : ${(item.totalSalesUnit * item.minUnitWeight).toLocaleString()}g</div>
+                        <div style="font-size: 25px">${item.name}</div>
+                        <div style="font-size: 20px">${item.minUnitWeight}g - ${item.price.toLocaleString()}원</div>
+                    </div>
+                    `;
+                        // 상품 요소를 컨테이너에 추가
+                        searchItems.appendChild(itemElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    };
+});
 // ----------------------- 마감임박 상품 조회
 document.addEventListener('DOMContentLoaded', function () {
     // 페이지 로드가 완료된 후 실행될 코드
@@ -75,7 +133,7 @@ function displayImpendingItems(items) {
 
         impendingItemsContainer.appendChild(itemElement);
     });
-}
+};
 
 // ----------------------- 인기 상품 조회
 
