@@ -109,7 +109,26 @@
     margin-right: 100px;
 }
 
+.search_wrapper{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
 
+label, #searchType, input[type="search"], #searchButton {
+    font-size: 28px; /* 글자 크기를 키움 */
+    padding: 10px; /* 내부 여백을 키움 */
+}
+#searchType, input[type="search"], #searchButton {
+    height: 60px; /* 높이를 키움 */
+}
+#searchButton {
+    background-color: #4CAF50; /* 버튼 배경색 */
+    color: white; /* 버튼 글자색 */
+    border: none; /* 테두리 제거 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 포인터로 변경 */
+}
 
 
 
